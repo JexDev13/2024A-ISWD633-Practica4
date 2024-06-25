@@ -53,17 +53,32 @@ docker build -t <nombre imagen>:<version> .
 ### Ejecutar el archivo Dockerfile y construir una imagen en la versión 1.0
 _Puedes copiar y ejecutar directamente. No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 ```
+FROM centos:7
 
+RUN yum update
+
+RUN yum install httpd
+
+COPY /web /var/www/html
+
+EXPOSE 80
+
+CMD ["apachectl", "-D", "FOREGROUND"]
 ```
 
 **¿Cuántos pasos se han ejecutado?**
+Se ejecutaron **9** pasos
 # RESPONDER 
 
 ### Inspeccionar la imagen creada
 # COMPLETAR CON UNA CAPTURA
+![image](https://github.com/JexDev13/2024A-ISWD633-Practica4/assets/119013519/144b7b24-e7a9-4025-ab0e-6817c9c6aba7)
+
+
 
 **Modificar el archivo index.html para incluir su nombre**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
+La diferencia en esta ocasion fue que como no necesitaba actualizar o instalar yum o apache directamente se movio al paso de la copia del archivo html por lo que el dockerfile solo hizo 1 paso y fue rapido.
 
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
@@ -75,14 +90,16 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+docker run -d --name my-apache-container -p 80:80 my-apache-image
 ```
 
 ### ¿Con que puerto host se está realizando el mapeo?
 # COMPLETAR CON LA RESPUESTA
+Se está realizando el mapeo con el puerto 80 del host.
 
 **¿Qué es una imagen huérfana?**
 # COMPLETAR CON LA RESPUESTA
+Una imagen huérfana en Docker es una imagen que ya no tiene ninguna etiqueta asociada, generalmente porque todas sus etiquetas han sido reasignadas a otras imágenes más recientes. Aunque ya no están etiquetadas, estas imágenes aún ocupan espacio en el sistema hasta que se eliminan manualmente.
 
 ### Identificar imágenes huérfanas
 ```
