@@ -11,6 +11,10 @@ Asignar núcleos de CPU específicos:
 
 **¿Como saber el numero de procesadores virtuales que tiene una máquina?**
 ## COMPLETAR
+```
+Get-WmiObject -class Win32_Processor | Select-Object -Property NumberOfLogicalProcessors
+docker inspect "NOMBRE CONTENEDOR" | grep -i cpus
+```
 
 ## Ejemplos
 _Puedes copiar y ejecutar directamente cada uno de los comandos_
